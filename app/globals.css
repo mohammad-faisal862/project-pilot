@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), Inter, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+:root {
+  --background: #030014;
+  --foreground: #f8fafc;
+  
+  --primary-glow: radial-gradient(rgba(120, 119, 198, 0.1), rgba(0, 0, 0, 0));
+  --secondary-glow: linear-gradient(to bottom right, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.05));
+  
+  --border-glow: 0 0 12px rgba(99, 102, 241, 0.15);
+  --card-glass: rgba(10, 7, 26, 0.6);
+  --card-border: rgba(255, 255, 255, 0.06);
+}
+
+/* Base resets & layouts */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.2), rgba(255, 255, 255, 0)),
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05), transparent),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.03), transparent);
+  background-attachment: fixed;
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(3, 0, 20, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  border: 2px solid rgba(3, 0, 20, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Sleek glassmorphic container styles */
+.glass-panel {
+  background: var(--card-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(99, 102, 241, 0.1);
+  background: rgba(13, 9, 36, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated glow background grids */
+.grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.dot-bg {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+/* Custom modern animated gradients */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-glowing {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glowing::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.btn-glowing:hover::after {
+  opacity: 1;
+}
+
+/* Custom animation keyframes */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+@keyframes gridScroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.grid-animated {
+  animation: gridScroll 10s linear infinite;
+}
+
+/* Custom code block styling */
+pre {
+  background: rgba(5, 2, 20, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* Hide Clerk Dev Badge */
+.cl-internal-b3al6g, 
+.cl-devMode,
+.cl-internal-phfxlr,
+div:has(> .cl-devMode) {
+  display: none !important;
+}
