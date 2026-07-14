@@ -30,7 +30,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Badge } from '@/components/ui/Badge';
 import { Progress } from '@/components/ui/Progress';
 import { UploadZone } from '@/components/ui/UploadZone';
-import { saveOnboardingData } from '@/app/actions/user';
+import { saveOnboardingData, getCurrentUserProfile } from '@/app/actions/user';
 
 const PREDEFINED_SKILLS = [
   'React', 'Next.js', 'TypeScript', 'JavaScript', 'HTML/CSS', 
@@ -41,7 +41,7 @@ const PREDEFINED_SKILLS = [
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { onboardingData, onboardingStep, setOnboardingField, setOnboardingStep, login } = useAppStore();
+  const { onboardingData, onboardingStep, setOnboardingField, setOnboardingStep, login, syncUserProfile } = useAppStore();
   const { user: clerkUser, isLoaded } = useUser();
 
   // Auto-fill onboarding name and email from Clerk Google OAuth session
@@ -102,6 +102,12 @@ export default function OnboardingPage() {
         resumeUrl: onboardingData.resumeName || undefined,
         dailyStudyTime: onboardingData.availableHoursPerWeek
       });
+      // After saving to DB, hydrate the store with the fresh profile
+      // so the dashboard immediately reflects real user data.
+      const freshProfile = await getCurrentUserProfile();
+      if (freshProfile) {
+        syncUserProfile(freshProfile);
+      }
       setDbSaved(true);
     } catch (err) {
       console.error('Failed saving onboarding details to database:', err);
@@ -143,7 +149,7 @@ export default function OnboardingPage() {
   // 2. Safe Redirect Effect (Triggered only when simulation finishes and DB saves successfully)
   useEffect(() => {
     if (isAnalyzing && analysisProgress === 100 && dbSaved) {
-      login(onboardingData.email || 'yogendarverma0268@gmail.com', onboardingData.fullName || 'yogender verma');
+      login(onboardingData.email || '', onboardingData.fullName || '');
       router.push('/dashboard');
     }
   }, [isAnalyzing, analysisProgress, dbSaved, onboardingData.email, onboardingData.fullName, login, router]);
