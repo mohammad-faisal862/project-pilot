@@ -44,8 +44,8 @@ export async function saveOnboardingData(data: OnboardingPayload) {
       },
       create: {
         clerkId: userId,
-        fullName: 'Developer Sandbox User',
-        email: 'sandbox@projectpilot.ai',
+        fullName: 'Dev User',
+        email: `dev-${userId}@localhost`,
         dreamRole: data.dreamRole,
         skills: data.skills,
         githubUrl: data.githubUrl || null,
@@ -62,8 +62,8 @@ export async function saveOnboardingData(data: OnboardingPayload) {
       console.warn('Postgres offline. Proceeding with offline-mode mock bypass.');
       return {
         clerkId: userId,
-        fullName: 'Developer Sandbox User',
-        email: 'sandbox@projectpilot.ai',
+        fullName: 'Dev User',
+        email: `dev-${userId}@localhost`,
         dreamRole: data.dreamRole,
         skills: data.skills,
         githubUrl: data.githubUrl,
@@ -105,16 +105,16 @@ export async function getCurrentUserProfile() {
     if (process.env.NODE_ENV === 'development') {
       return {
         clerkId: userId,
-        fullName: 'Developer Sandbox User',
-        email: 'sandbox@projectpilot.ai',
+        fullName: 'Dev User',
+        email: `dev-${userId}@localhost`,
         imageUrl: null,
-        skills: ['React', 'TypeScript', 'Tailwind CSS'],
-        dreamRole: 'AI Engineer',
-        githubUrl: 'https://github.com/developer',
-        linkedinUrl: 'https://linkedin.com/in/developer',
-        resumeUrl: 'sandbox_resume.pdf',
-        dailyStudyTime: 15,
-        onboardingCompleted: true,
+        skills: [],
+        dreamRole: '',
+        githubUrl: null,
+        linkedinUrl: null,
+        resumeUrl: null,
+        dailyStudyTime: 0,
+        onboardingCompleted: false,
         createdAt: new Date(),
         updatedAt: new Date()
       };
