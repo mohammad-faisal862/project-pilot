@@ -29,6 +29,7 @@ export default function RootLayout({
       <html
         lang="en"
         className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+        suppressHydrationWarning
       >
         <head>
           {/*
@@ -38,7 +39,7 @@ export default function RootLayout({
            * on <html> synchronously so users never see a flash of the wrong
            * theme when they revisit the page with a saved light-mode preference.
            */}
-          <script dangerouslySetInnerHTML={{
+          <script suppressHydrationWarning dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
@@ -60,7 +61,7 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
           {/* Hide Clerk dev-mode badge in development */}
-          <script dangerouslySetInnerHTML={{
+          <script suppressHydrationWarning dangerouslySetInnerHTML={{
             __html: `
               setInterval(() => {
                 const elements = document.querySelectorAll('div[class*="cl-"]');
