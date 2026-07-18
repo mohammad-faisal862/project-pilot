@@ -1,7 +1,7 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
 
 export interface OnboardingPayload {
   dreamRole: string;
@@ -120,5 +120,43 @@ export async function getCurrentUserProfile() {
       };
     }
     return null;
+  }
+}
+
+//avatar update
+export async function updateProfileAvatar(imageUrl: string) {
+  let userId: string | null = null;
+
+  if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+    const session = await auth();
+    userId = session.userId;
+  } else if (process.env.NODE_ENV === "development") {
+    userId = "mock-developer-id";
+  }
+
+  if (!userId) {
+    throw new Error("Unauthenticated user attempt.");
+  }
+
+  try {
+    return await prisma.user.update({
+      where: {
+        clerkId: userId,
+      },
+      data: {
+        imageUrl,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to update profile avatar:", error);
+
+    if (process.env.NODE_ENV === "development") {
+      return {
+        clerkId: userId,
+        imageUrl,
+      };
+    }
+
+    throw error;
   }
 }
