@@ -38,6 +38,12 @@ export interface Project {
   completionTime: string;
   githubPortfolioValue: string;
   category: string;
+  status?: string;
+  progress?: number;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  githubUrl?: string;
+  liveUrl?: string;
 }
 
 export interface RoadmapStep {
